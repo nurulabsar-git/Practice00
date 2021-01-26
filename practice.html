@@ -30,13 +30,13 @@
            <div class="col-sm-4">
               <div class="withdraw status">
                 <h5>Withdraw</h5>
-                <h2>$00</h2>
+                <h2>$ <span id="currentWithdraw">00</span> </h2>
               </div>
            </div>
            <div class="col-sm-4">
                <div class="blance status">
                 <h5>Blance</h5>
-                <h2>$250000000</h2>
+                <h2>$<span id="currentBlance">25000</span></h2>
                </div>
            </div>
        </div>
@@ -52,8 +52,8 @@
            <div class="col-sm-6">
                <div class="submit-area">
                 <h4>Withdraw</h4>
-                <input type="text" class="form-control" placeholder="$ withdraw amount">  <br>
-                <button class="btn btn-success">Withdraw</button>
+                <input id="WithdrawAmount" type="text" class="form-control" placeholder="$ withdraw amount">  <br>
+                <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                </div>
            </div>
        </div>
@@ -70,17 +70,52 @@
 // deposit btn event handler.
         const depositBtn = document.getElementById("addDeposit");
         depositBtn.addEventListener("click", function(){
-            const depositAmount = document.getElementById("depositAmount").value;  //"depositAmount" in the button
-            const depositNumber = parseFloat(depositAmount);
-
-            const currentDeposit = document.getElementById("currentDeposit").innerText; //"currentDeposit" in the h2 tag
+            //const depositAmount = document.getElementById("depositAmount").value;  //"depositAmount" in the button
+            // const depositNumber = parseFloat(depositAmount);
+              const depositNumber = getInputNumber("depositAmount");
+                                                         
+        /*const currentDeposit = document.getElementById("currentDeposit").innerText; //"currentDeposit" in the h2 tag
             const currentDepositNumber = parseFloat(currentDeposit);
             const totalDeposit = depositNumber + currentDepositNumber;
+           document.getElementById("currentDeposit").innerText = totalDeposit;
+           */
+            
+           
+           //Blance part
+          
+           updateSpanText("currentDeposit", depositNumber);
+           updateSpanText("currentBlance", depositNumber);
+           
+           document.getElementById("depositAmount").value = "";
 
-            document.getElementById("currentDeposit").innerText = totalDeposit;
-            document.getElementById("depositAmount").value = ""
+        })  
+       //withdraw button handler
+       const withdrawBtn = document.getElementById("addWithdraw");
+       withdrawBtn.addEventListener("click", function(){
+          //  const WithdrawAmount = document.getElementById("WithdrawAmount").value;
+          //  const WithdrawAmount = parseFloat(WithdrawAmount);       
+           const withdrawNumber = getInputNumber("WithdrawAmount");
 
-        })
+           updateSpanText("currentWithdraw", withdrawNumber);
+           updateSpanText("currentBlance", -1*withdrawNumber);
+           document.getElementById("WithdrawAmount").value = "";
+       })
+
+       function getInputNumber(id){
+            const amount = document.getElementById(id).value;
+            const amountNumber = parseFloat(amount);
+            return amountNumber;
+       }
+
+
+
+       //special case
+        function updateSpanText(id, depositNumber){
+           const current = document.getElementById(id).innerText; //"currentBlance" in the h2 tag
+           const currentNumber = parseFloat(current);
+           const totalAmount = depositNumber + currentNumber;
+           document.getElementById(id).innerText = totalAmount;
+        }
     </script>
      <script src="js/bootstrap.min.js"></script>  
 </body>
